@@ -70,3 +70,13 @@ python manage.py runserver
 <img width="900" alt="Manage_student_page" src="https://github.com/user-attachments/assets/b0005fd9-b8c6-4ef6-9839-eeb4c982484a" /><br>
 <img width="843" alt="Mange_staff" src="https://github.com/user-attachments/assets/9279eba5-1eab-47b8-bf92-b34c21945a99" /><br>
 
+**Home page Admin/Student/Staff**<img width="960" alt="admin_page" src="https://github.com/user-attachments/assets/d829f838-6ab4-46cd-9541-e1361608a348" /><br>
+
+<img width="759" alt="Student_page2" src="https://github.com/user-attachments/assets/125dfc19-54d9-4c16-aff5-ed27f6fae5b3" /><br>
+
+
+<img width="759" alt="Teacher_page" src="https://github.com/user-attachments/assets/11be02f8-f4ec-4c20-b3d5-e2df282f8f2a" />
+
+
+
+

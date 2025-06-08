@@ -67,6 +67,6 @@ python manage.py runserver
 <img width="960" alt="login_page" src="https://github.com/user-attachments/assets/c98923ce-3b07-46dd-b5e3-dcae2d34e9f2" />
 
 **Manage Students/Staff/Course**<img width="817" alt="manage_course" src="https://github.com/user-attachments/assets/39b5b483-e2dc-4783-bbcb-9c727e3c2e0b" /><br>
-<img width="900" alt="Manage_student_page" src="https://github.com/user-attachments/assets/b0005fd9-b8c6-4ef6-9839-eeb4c982484a" />< br>
+<img width="900" alt="Manage_student_page" src="https://github.com/user-attachments/assets/b0005fd9-b8c6-4ef6-9839-eeb4c982484a" /><br>
 <img width="843" alt="Mange_staff" src="https://github.com/user-attachments/assets/9279eba5-1eab-47b8-bf92-b34c21945a99" /><br>
 

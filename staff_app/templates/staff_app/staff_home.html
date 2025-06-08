@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Staff Dashboard{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Profile Information</h5>
+                    <p class="card-text">Name: {{ staff.admin.get_full_name }}</p>
+                    <p class="card-text">Email: {{ staff.admin.email }}</p>
+                    <p class="card-text">Address: {{ staff.address }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Actions</h5>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">Manage Attendance</a>
+                        <a href="#" class="list-group-item list-group-item-action">View Student Feedback</a>
+                        <a href="#" class="list-group-item list-group-item-action">Upload Results</a>
+                        <a href="#" class="list-group-item list-group-item-action">Apply for Leave</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Your Classes</h5>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Subject</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for subject in staff.subjects.all %}
+                                <tr>
+                                    <td>{{ subject.course.name }}</td>
+                                    <td>{{ subject.name }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-primary">View Details</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

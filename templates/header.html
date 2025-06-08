@@ -1,0 +1,25 @@
+{# YouExcel_Management_System/templates/header.html #}
+{% load static %}
+<header>
+    <nav>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="YouExcel Logo" width="80">
+            <span>YouExcel Management System</span>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'admin:index' %}">Admin Panel</a>
+            {# Make sure these are correct as well, if they are the home pages #}
+            <a href="{% url 'admin_home' %}">Admin Home</a>
+            <a href="{% url 'staff_home' %}">Staff Home</a>
+            <a href="{% url 'student_home' %}">Student Home</a>
+        </div>
+        <div class="user-info">
+            {% if user.is_authenticated %}
+                <span>Welcome, {{ user.username }}!</span>
+                <a href="{% url 'custom_logout' %}">Logout</a> {# <--- Yahan 'custom_logout' hi hona chahiye #}
+            {% else %}
+                <a href="{% url 'custom_login' %}">Login</a> {# <--- Yahan 'custom_login' hi hona chahiye #}
+            {% endif %}
+        </div>
+    </nav>
+</header>

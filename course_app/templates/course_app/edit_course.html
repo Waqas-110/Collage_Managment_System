@@ -1,0 +1,29 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Edit Course</h2>
+
+    {% if messages %}
+    <div class="messages mb-3">
+        {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">Course Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ course.name }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Update Course</button>
+        <a href="{% url 'course_app:manage_courses' %}" class="btn btn-secondary mt-3">Cancel</a>
+    </form>
+</div>
+{% endblock %}

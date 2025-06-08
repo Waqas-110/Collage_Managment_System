@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Profile Information</h5>
+                    <p class="card-text">Name: {{ user.student.name }}</p>
+                    <p class="card-text">Email: {{ user.student.email }}</p>
+                    <p class="card-text">Course: {{ user.student.course.name }}</p>
+                    <p class="card-text">Phone: {{ user.student.phone }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Your Course Details</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ user.student.course.name }}</h6>
+                    <p class="card-text">{{ user.student.course.description }}</p>
+
+                    <h6 class="mt-4">Subjects:</h6>
+                    <ul class="list-group">
+                        {% for subject in user.student.course.subject_set.all %}
+                        <li class="list-group-item">{{ subject.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Actions</h5>
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">View Attendance</a>
+                        <a href="#" class="list-group-item list-group-item-action">Submit Feedback</a>
+                        <a href="#" class="list-group-item list-group-item-action">View Results</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

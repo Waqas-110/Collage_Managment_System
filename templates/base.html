@@ -1,0 +1,70 @@
+{# D:\YouExcel_Management_System\templates\base.html #}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}YouExcel Management System{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    {# The main-container is hidden on the login page via CSS #}
+    <div class="main-container">
+        <header>
+            {% block header %}
+                <div class="header-content">
+                    <div class="logo">
+                        <a href="{% url 'custom_login' %}">
+                            <img src="{% static 'images/logo.png' %}" alt="YouExcel Logo">
+                        </a>
+                    </div>
+                    <nav>
+                        <ul>
+                            {% if user.is_authenticated %}
+                                <li>Welcome, {{ user.username }}!</li>
+                                <li><a href="{% url 'custom_logout' %}">Logout</a></li>
+                            {% else %}
+                                <li><a href="{% url 'custom_login' %}">Login</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            {% endblock %}
+        </header>
+
+        <main>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% block content %}
+                <p>Welcome to the YouExcel Management System. This is default content from base.html.</p>
+                <p>Please log in or navigate to other sections.</p>
+            {% endblock %}
+        </main>
+
+        <footer>
+            {% block footer %}
+                <p>&copy; 2025 YouExcel Management System. All rights reserved.</p>
+            {% endblock %}
+        </footer>
+    </div>
+
+    {# Placeholder for global JavaScript #}
+    <script src="{% static 'js/script.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+
+{% if messages %}
+  <ul>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+</body>
+</html>

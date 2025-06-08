@@ -1,0 +1,271 @@
+/* D:\YouExcel_Management_System\static\css\style.css */
+
+/* Global Imports and Variables */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-color: #5cb85c; /* A softer green */
+    --secondary-color: #337ab7; /* A softer blue */
+    --accent-color: #f0ad4e; /* A softer orange */
+    --text-color: #333;
+    --light-bg: #e9ecef; /* Very light grey */
+    --white: #ffffff;
+    --border-color: #dee2e6; /* Light border */
+    --shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Lighter shadow */
+}
+
+/* Global Body Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Global Container, Header, Nav, Footer Styles (These are hidden on login page) */
+.main-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: var(--white);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border-radius: 8px;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 5px 8px;
+    transition: background-color 0.2s ease;
+}
+
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+main {
+    padding: 15px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+    border-top: 1px solid var(--border-color);
+    color: #6c757d;
+    font-size: 0.85em;
+}
+
+/* Basic message styling */
+.messages {
+    list-style: none;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.messages li {
+    margin-bottom: 5px;
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.messages .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.messages .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+/* Basic form styling (will be overridden by login-specific forms) */
+form {
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.input-group input[type="text"],
+.input-group input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* ******************************************* */
+/* Login Page Specific Styles (SIMPLIFIED & AT END) */
+/* ******************************************* */
+
+/* Body setup for login page */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--light-bg); /* This is the light grey background */
+    margin: 0;
+    padding: 0;
+}
+
+/* Hide base.html's default elements for login page */
+.main-container, header, footer {
+    display: none !important; /* This hides the main site layout for the login page */
+}
+
+.login-wrapper {
+    display: flex;
+    background-color: var(--white);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    width: 80%;
+    max-width: 800px;
+    min-height: 400px;
+    overflow: hidden;
+}
+
+.login-illustration {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+}
+
+.login-illustration img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.login-form-container {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-form-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--text-color);
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.login-form-container .input-group {
+    position: relative; /* Added for eye icon positioning */
+    margin-bottom: 15px;
+}
+
+.login-form-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.icon-eye {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(0%); /* Adjusted top to center vertically */
+    cursor: pointer;
+    color: var(--text-color);
+    font-size: 1.2em; /* Slightly larger icon */
+    padding-top: 20px; /* Adjust if needed to align better with input field */
+}
+
+.forgot-password {
+    text-align: right;
+    margin-top: -10px; /* Pulls it up slightly */
+    margin-bottom: 15px;
+}
+.forgot-password a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 0.85em;
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.login-button:hover { background-color: #4CAF50; }
+
+.signup-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+.signup-text a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .login-wrapper {
+        flex-direction: column;
+        max-width: 400px;
+        min-height: auto;
+    }
+    .login-illustration { display: none; }
+    .login-form-container { padding: 20px; }
+    .login-form-container h2 { font-size: 1.8em; }
+}

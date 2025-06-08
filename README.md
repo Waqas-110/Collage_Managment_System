@@ -42,38 +42,21 @@ Others: jQuery, Owl Carousel, Ajax
 ⚙️ Setup Instructions
 Clone the repository:
 
-bash
-Copy
-Edit
+
 git clone https://github.com/your-username/youexcel-management-system.git
 Create and activate a virtual environment:
 
-bash
-Copy
-Edit
 python -m venv .venv
 .venv\Scripts\activate  # For Windows
 Install dependencies:
 
-bash
-Copy
-Edit
 pip install -r requirements.txt
 Run migrations:
 
-bash
-Copy
-Edit
 python manage.py migrate
 Create a superuser:
 
-bash
-Copy
-Edit
 python manage.py createsuperuser
 Start the development server:
 
-bash
-Copy
-Edit
 python manage.py runserver

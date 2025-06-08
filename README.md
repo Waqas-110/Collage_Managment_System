@@ -60,3 +60,8 @@ python manage.py createsuperuser
 Start the development server:
 
 python manage.py runserver
+
+📸 **Screenshots**
+**Login Page**
+<img width="960" alt="login_page" src="https://github.com/user-attachments/assets/c98923ce-3b07-46dd-b5e3-dcae2d34e9f2" />
+

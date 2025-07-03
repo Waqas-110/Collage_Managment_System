@@ -42,32 +42,27 @@ A comprehensive web-based college management system built with Django, featuring
 ## 📸 Screenshots
 
 ### Login Page
-![Login Page](screenshots/login.png)
+![Screenshot 2025-07-03 030617](https://github.com/user-attachments/assets/73f6d64a-a952-402a-9584-e787eac37805)
 *Modern gradient login with role selection*
 
 ### Admin Dashboard
-![Admin Dashboard](screenshots/admin-dashboard.png)
+![admin](https://github.com/user-attachments/assets/3f6eb516-293b-492b-a467-88c846622f64)
 *Complete system overview with statistics*
 
 ### Predictive Analytics
-![Predictive Analytics](screenshots/predictive-analytics.png)
+![predictions](https://github.com/user-attachments/assets/f1b1e71f-a828-4503-b8f7-0b5841c07d49)
 *ML-based performance prediction system*
 
 ### Teacher Dashboard
-![Teacher Dashboard](screenshots/teacher-dashboard.png)
+![teacher](https://github.com/user-attachments/assets/c0a6bb4c-191d-4e5d-aa9a-e654190da692)
 *Teacher profile with course management*
 
 ### Student Dashboard
-![Student Dashboard](screenshots/student-dashboard.png)
+![student](https://github.com/user-attachments/assets/7ae30790-4831-4c77-ae95-2ae5d9768854)
 *Student performance tracking with charts*
 
 ### Analytics Charts
-![Seaborn Charts](screenshots/analytics-charts.png)
+![analyics](https://github.com/user-attachments/assets/9904968e-4ab2-4db0-9866-5020112761ac)
 *Professional data visualization*
 
-## 🚀 Installation
 
-1. **Clone Repository**
-```bash
-git clone https://github.com/yourusername/youexcel-management-system.git
-cd youexcel-management-system

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Marks | College Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Marks</h2>
+    
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h5>Edit Marks Record</h5>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label class="form-label">Student</label>
+                    <input type="text" class="form-control" value="{{ marks.student.first_name }} {{ marks.student.last_name }}" readonly>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Course</label>
+                    <input type="text" class="form-control" value="{{ marks.course.name }}" readonly>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Exam Type</label>
+                    <input type="text" class="form-control" value="{{ marks.marks_for }}" readonly>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label">Date</label>
+                    <input type="text" class="form-control" value="{{ marks.exam_date|date:'F d, Y' }}" readonly>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="marks" class="form-label">Marks</label>
+                        <input type="number" id="marks" name="marks" class="form-control" value="{{ marks.marks }}" min="0" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="max_marks" class="form-label">Max Marks</label>
+                        <input type="number" id="max_marks" name="max_marks" class="form-control" value="{{ marks.max_marks }}" min="1" required>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="remarks" class="form-label">Remarks</label>
+                    <textarea id="remarks" name="remarks" class="form-control" rows="3">{{ marks.remarks }}</textarea>
+                </div>
+                
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary me-2">Save Changes</button>
+                    <a href="{% url 'view_marks' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

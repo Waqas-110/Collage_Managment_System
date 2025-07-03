@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Student | College Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Add Student</h2>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data" class="p-4 bg-white rounded shadow">
+        {% csrf_token %}
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="id_student_id">Student ID</label>
+                {{ form.student_id }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="id_username">Username</label>
+                <input type="text" name="username" id="id_username" class="form-control" required>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="id_password">Password</label>
+                <input type="password" name="password" id="id_password" class="form-control" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="id_confirm_password">Confirm Password</label>
+                <input type="password" name="confirm_password" id="id_confirm_password" class="form-control" required>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="id_first_name">First Name</label>
+                {{ form.first_name }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="id_last_name">Last Name</label>
+                {{ form.last_name }}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="id_age">Age</label>
+                {{ form.age }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="id_email">Email</label>
+                {{ form.email }}
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="id_course">Course</label>
+                {{ form.course }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="id_timing">Timing</label>
+                {{ form.timing }}
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="id_profile_picture">Profile Picture</label>
+            {{ form.profile_picture }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Student</button>
+    </form>
+</div>
+{% endblock %}

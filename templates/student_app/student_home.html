@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Dashboard | YOUEXCEL Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>🎓 Student Dashboard</h2>
+    
+    <!-- Student Profile Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">👤 Student Profile</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            {% if student.profile_picture %}
+                                <img src="{{ student.profile_picture.url }}" alt="Profile Picture" class="img-thumbnail rounded-circle" style="width: 150px; height: 150px;">
+                            {% else %}
+                                <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center mx-auto" style="width: 150px; height: 150px;">
+                                    <i class="fas fa-user fa-4x text-white"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-9">
+                            <h3>{{ student.first_name }} {{ student.last_name }}</h3>
+                            <p class="lead"><strong>Student ID:</strong> {{ student.student_id }}</p>
+                            <p><strong>Email:</strong> {{ student.email }}</p>
+                            <p><strong>Course:</strong> <span class="badge bg-primary">{{ student.course.name }}</span></p>
+                            <p><strong>Timing:</strong> <span class="badge bg-info">{{ student.get_timing_display }}</span></p>
+                            <p><strong>Duration:</strong> {{ student.course.duration }} months</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Warning Alert -->
+    {% if warning_message %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ warning_message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endif %}
+    
+    <!-- Stats Cards -->
+    <div class="row mt-4">
+        <div class="col-md-3 mb-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h5>Attendance Rate</h5>
+                    <h2 class="display-4">{{ attendance_percentage }}%</h2>
+                    <p>{{ present_count }}/{{ total_classes }} Classes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h5>Average Marks</h5>
+                    <h2 class="display-4">{{ avg_marks }}%</h2>
+                    <p>{{ total_exams }} Exams Taken</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <h5>Predicted Score</h5>
+                    <h2 class="display-4">{% if prediction %}{{ prediction.predicted_marks }}%{% else %}N/A{% endif %}</h2>
+                    <p>Performance Prediction</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card bg-{% if prediction %}{{ prediction.risk_color }}{% else %}secondary{% endif %} text-white">
+                <div class="card-body text-center">
+                    <h5>Risk Status</h5>
+                    <h3>{% if prediction %}{{ prediction.risk_level }}{% else %}Unknown{% endif %}</h3>
+                    <p>Current Status</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row text-center mb-4">
+        <div class="col-md-4">
+            <a href="{% url 'student_view_attendance' %}" class="btn btn-outline-primary w-100 p-3 shadow">
+                <i class="fas fa-calendar-check"></i> View Attendance
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'student_view_marks' %}" class="btn btn-outline-success w-100 p-3 shadow">
+                <i class="fas fa-chart-line"></i> View Marks
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="#" class="btn btn-outline-info w-100 p-3 shadow">
+                <i class="fas fa-user"></i> Profile
+            </a>
+        </div>
+    </div>
+
+
+
+    <!-- Teacher Remarks -->
+    {% if teacher_remarks %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">💬 Recent Teacher Feedback</h5>
+                </div>
+                <div class="card-body">
+                    {% for remark in teacher_remarks %}
+                    <div class="alert alert-light border-left border-primary mb-2">
+                        <strong>{{ remark.exam_date|date:"M d, Y" }} - {{ remark.marks_for }}:</strong><br>
+                        "{{ remark.remarks }}"
+                        <small class="text-muted d-block">Score: {{ remark.marks }}/{{ remark.max_marks }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Attendance Bar Chart
+const ctx = document.getElementById('attendanceChart').getContext('2d');
+const chartData = {{ chart_data|safe }};
+
+const labels = chartData.map(item => item.date);
+const data = chartData.map(item => item.status);
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Attendance',
+            data: data,
+            backgroundColor: data.map(status => status === 1 ? '#28a745' : '#dc3545'),
+            borderColor: data.map(status => status === 1 ? '#1e7e34' : '#c82333'),
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 1,
+                ticks: {
+                    callback: function(value) {
+                        return value === 1 ? 'Present' : 'Absent';
+                    }
+                }
+            }
+        },
+        plugins: {
+            legend: { display: false }
+        }
+    }
+});
+
+
+</script>
+{% endblock %}

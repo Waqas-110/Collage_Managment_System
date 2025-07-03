@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}View Attendance | College Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>View Attendance</h2>
+    
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5>Filter Attendance Records</h5>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="date" class="form-label">Date</label>
+                    <input type="date" id="date" name="date" class="form-control" value="{{ selected_date|default:'' }}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="course" class="form-label">Course</label>
+                    <select id="course" name="course" class="form-control">
+                        <option value="">All Courses</option>
+                        {% for course in courses %}
+                            <option value="{{ course.id }}" {% if selected_course == course.id|stringformat:"i" %}selected{% endif %}>
+                                {{ course.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">Filter</button>
+                    <a href="{% url 'view_attendance' %}" class="btn btn-secondary">Reset</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Attendance Records -->
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h5>Attendance Records</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Student</th>
+                            <th>Course</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in attendance_records %}
+                        <tr>
+                            <td>{{ record.date|date:"M d, Y" }}</td>
+                            <td>{{ record.student.first_name }} {{ record.student.last_name }}</td>
+                            <td>{{ record.course.name }}</td>
+                            <td>
+                                <span class="badge {% if record.status == 'Present' %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ record.status }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{% url 'edit_attendance' record.id %}" class="btn btn-sm btn-primary">Edit</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">No attendance records found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

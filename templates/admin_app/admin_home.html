@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard | Youexcel Management System{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="text-center mb-4">Welcome to Admin Dashboard</h2>
+
+    <!-- Stats Row -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <a href="{% url 'student_list' %}" class="text-decoration-none">
+                <div class="bg-primary p-4 rounded shadow">
+                    <h5 class="text-white"><i class="fas fa-users"></i> Total Students</h5>
+                    <h3 class="text-white">{{ total_students }}</h3>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'teacher_list' %}" class="text-decoration-none">
+                <div class="bg-success p-4 rounded shadow">
+                    <h5 class="text-white"><i class="fas fa-chalkboard-teacher"></i> Total Teachers</h5>
+                    <h3 class="text-white">{{ total_teachers }}</h3>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'course_list' %}" class="text-decoration-none">
+                <div class="bg-warning p-4 rounded shadow">
+                    <h5 class="text-white"><i class="fas fa-book"></i> Total Courses</h5>
+                    <h3 class="text-white">{{ total_courses }}</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row text-center mb-4">
+        <div class="col-md-3">
+            <a href="{% url 'add_student' %}" class="btn btn-outline-primary w-100 p-3 shadow"><i class="fas fa-user-plus"></i> Add Student</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'add_teacher' %}" class="btn btn-outline-success w-100 p-3 shadow"><i class="fas fa-user-tie"></i> Add Teacher</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'add_course' %}" class="btn btn-outline-warning w-100 p-3 shadow"><i class="fas fa-book-open"></i> Add Course</a>
+        </div>
+        <div class="col-md-3">
+            <a href="{% url 'admin_analytics' %}" class="btn btn-outline-dark w-100 p-3 shadow"><i class="fas fa-chart-bar"></i> View Analytics</a>
+        </div>
+    </div>
+
+    <!-- Student Analytics Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">📊 Student Performance Analytics</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Comprehensive system to analyze student performance and identify students who need attention.</p>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <a href="{% url 'predictive_analytics' %}" class="btn btn-primary w-100 mb-2">
+                                📈 Performance Analysis & Early Warning
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

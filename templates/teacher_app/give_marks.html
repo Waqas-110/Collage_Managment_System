@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Give Marks | College Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Give Marks</h2>
+    
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5>Add New Marks</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="student_id" class="form-label">Student</label>
+                            <select name="student_id" id="student_id" class="form-control" required>
+                                <option value="">Select Student</option>
+                                {% for student in students %}
+                                    <option value="{{ student.id }}">{{ student.first_name }} {{ student.last_name }} ({{ student.student_id }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="course_id" class="form-label">Course</label>
+                            <select name="course_id" id="course_id" class="form-control" required>
+                                <option value="">Select Course</option>
+                                {% for course in courses %}
+                                    <option value="{{ course.id }}">{{ course.name }} ({{ course.code }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="marks_for" class="form-label">Marks For</label>
+                            <select name="marks_for" id="marks_for" class="form-control" required>
+                                <option value="Midterm">Midterm</option>
+                                <option value="Final">Final</option>
+                                <option value="Quiz">Quiz</option>
+                                <option value="Assignment">Assignment</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="marks" class="form-label">Marks</label>
+                                <input type="number" name="marks" id="marks" class="form-control" min="0" max="100" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="max_marks" class="form-label">Max Marks</label>
+                                <input type="number" name="max_marks" id="max_marks" class="form-control" value="100" min="1">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="exam_date" class="form-label">Date</label>
+                            <input type="date" name="exam_date" id="exam_date" class="form-control" value="{{ today|date:'Y-m-d' }}" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="teacher" class="form-label">Teacher</label>
+                            <input type="text" class="form-control" value="{{ teacher.first_name }} {{ teacher.last_name }}" readonly>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="remarks" class="form-label">Remarks</label>
+                            <textarea name="remarks" id="remarks" class="form-control" rows="3"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Submit Marks</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5>Recent Marks</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Course</th>
+                                <th>Type</th>
+                                <th>Marks</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for mark in student_marks %}
+                            <tr>
+                                <td>{{ mark.student.first_name }} {{ mark.student.last_name }}</td>
+                                <td>{{ mark.course.name }}</td>
+                                <td>{{ mark.marks_for }}</td>
+                                <td>{{ mark.marks }}/{{ mark.max_marks }}</td>
+                                <td>{{ mark.exam_date|date:"M d, Y" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No marks recorded yet</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

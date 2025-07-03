@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}Predictive Analytics{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>🎯 Student Performance Prediction</h2>
+    
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Total Students</h5>
+                    <h3 class="text-primary">{{ total_students }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">High Risk</h5>
+                    <h3 class="text-danger">{{ high_risk_count }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Medium Risk</h5>
+                    <h3 class="text-warning">{{ medium_risk_count }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>📊 Student Performance Predictions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Predicted Marks</th>
+                                    <th>Risk Level</th>
+                                    <th>Attendance Rate</th>
+                                    <th>Trend</th>
+                                    <th>Current Avg</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in predictions %}
+                                <tr>
+                                    <td>{{ item.student.full_name }}</td>
+                                    <td>
+                                        <span class="badge bg-info">{{ item.prediction.predicted_marks }}%</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{{ item.prediction.risk_color }}">
+                                            {{ item.prediction.risk_level }}
+                                        </span>
+                                    </td>
+                                    <td>{{ item.prediction.attendance_rate }}%</td>
+                                    <td>
+                                        {% if item.prediction.trend > 0 %}
+                                            <span class="text-success">+{{ item.prediction.trend }}%</span>
+                                        {% else %}
+                                            <span class="text-danger">{{ item.prediction.trend }}%</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.prediction.current_avg }}%</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" onclick="showPredictionDetails('{{ item.student.id }}', '{{ item.student.full_name }}', '{{ item.student.student_id }}', '{{ item.prediction.predicted_marks }}', '{{ item.prediction.risk_level }}', '{{ item.prediction.attendance_rate }}', '{{ item.prediction.trend }}', '{{ item.prediction.current_avg }}')">
+                                            📊 View Metrics
+                                        </button>
+                                        {% if item.prediction.risk_level != "Low Risk" %}
+                                            <button class="btn btn-sm btn-warning ms-1" onclick="sendWarningToStudent('{{ item.student.full_name }}', '{{ item.student.student_id }}')">
+                                                ⚠️ Send Warning
+                                            </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-3">
+        <div class="col-12">
+            <a href="{% url 'admin_analytics' %}" class="btn btn-info">📈 General Analytics</a>
+            <a href="{% url 'admin_home' %}" class="btn btn-secondary">🏠 Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<!-- Prediction Details Modal -->
+<div class="modal fade" id="predictionModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">📊 Prediction Metrics</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showPredictionDetails(studentId, studentName, studentIdNum, predictedMarks, riskLevel, attendanceRate, trend, currentAvg) {
+    const modalContent = document.getElementById('modalContent');
+    
+    const riskColor = riskLevel === 'High Risk' ? 'danger' : (riskLevel === 'Medium Risk' ? 'warning' : 'success');
+    
+    modalContent.innerHTML = `
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h6>🎓 ${studentName} (${studentIdNum})</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>📊 Performance Metrics:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Predicted Marks:</strong> <span class="badge bg-info">${predictedMarks}%</span></li>
+                            <li><strong>Risk Level:</strong> <span class="badge bg-${riskColor}">${riskLevel}</span></li>
+                            <li><strong>Attendance Rate:</strong> ${attendanceRate}%</li>
+                            <li><strong>Recent Trend:</strong> 
+                                ${trend > 0 ? '<span class="text-success">+' + trend + '%</span>' : '<span class="text-danger">' + trend + '%</span>'}
+                            </li>
+                            <li><strong>Current Average:</strong> ${currentAvg}%</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>🎯 Analysis:</h6>
+                        <div class="alert alert-info">
+                            ${riskLevel === 'High Risk' ? 
+                                '🚨 <strong>Critical:</strong> Immediate intervention required' : 
+                                riskLevel === 'Medium Risk' ? 
+                                '⚠️ <strong>Caution:</strong> Monitor closely' : 
+                                '✅ <strong>Good:</strong> Student performing well'
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('predictionModal'));
+    modal.show();
+}
+
+function sendWarningToStudent(studentName, studentId) {
+    // Show warning message on the page
+    const warningDiv = document.createElement('div');
+    warningDiv.className = 'alert alert-warning alert-dismissible fade show mt-3';
+    warningDiv.innerHTML = `
+        <strong>⚠️ Warning Sent to ${studentName} (${studentId})</strong><br>
+        • Student has been notified about performance concerns<br>
+        • Parents will be contacted automatically<br>
+        • Monitoring continues for improvement
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    // Add warning to the top of the page
+    const container = document.querySelector('.container');
+    container.insertBefore(warningDiv, container.children[1]);
+    
+    // Scroll to top to show the warning
+    window.scrollTo(0, 0);
+}
+</script>
+{% endblock %}

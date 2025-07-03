@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}At-Risk Students - Early Warning System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>🚨 Early Warning System - At-Risk Students</h2>
+    
+    <div class="alert alert-warning">
+        <strong>⚠️ Alert:</strong> {{ total_at_risk }} student(s) require immediate attention based on predictive analysis.
+    </div>
+    
+    {% if at_risk_students %}
+        {% for item in at_risk_students %}
+        <div class="card mb-3 border-{{ item.prediction.risk_color }}">
+            <div class="card-header bg-{{ item.prediction.risk_color }} text-white">
+                <h5 class="mb-0">
+                    🎓 {{ item.student.full_name }} ({{ item.student.student_id }})
+                    <span class="badge bg-dark float-end">Priority: {{ item.priority }}/100</span>
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>📊 Prediction Metrics:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Predicted Performance:</strong> {{ item.prediction.predicted_marks }}%</li>
+                            <li><strong>Risk Level:</strong> 
+                                <span class="badge bg-{{ item.prediction.risk_color }}">{{ item.prediction.risk_level }}</span>
+                            </li>
+                            <li><strong>Attendance Rate:</strong> {{ item.prediction.attendance_rate }}%</li>
+                            <li><strong>Recent Trend:</strong> 
+                                {% if item.prediction.trend > 0 %}
+                                    <span class="text-success">+{{ item.prediction.trend }}%</span>
+                                {% else %}
+                                    <span class="text-danger">{{ item.prediction.trend }}%</span>
+                                {% endif %}
+                            </li>
+                            <li><strong>Consecutive Absences:</strong> {{ item.prediction.consecutive_absences }} days</li>
+                            <li><strong>Current Average:</strong> {{ item.prediction.current_avg }}%</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>🎯 ML-Based Recommendations:</h6>
+                        <ul class="list-group list-group-flush">
+                            {% for recommendation in item.recommendations %}
+                            <li class="list-group-item">{{ recommendation }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button class="btn btn-warning btn-sm" onclick="sendWarning('{{ item.student.full_name }}', '{{ item.student.student_id }}')">
+                            ⚠️ Send Warning
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-success">
+            <h5>🎉 Excellent News!</h5>
+            <p>No students are currently at risk based on our predictive analysis. All students are performing well!</p>
+        </div>
+    {% endif %}
+    
+    <div class="row mt-4">
+        <div class="col-12">
+            <a href="{% url 'predictive_analytics' %}" class="btn btn-primary">📊 View All Predictions</a>
+            <a href="{% url 'admin_analytics' %}" class="btn btn-info">📈 General Analytics</a>
+            <a href="{% url 'admin_home' %}" class="btn btn-secondary">🏠 Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function sendWarning(studentName, studentId) {
+    // Show warning message on the page
+    const warningDiv = document.createElement('div');
+    warningDiv.className = 'alert alert-warning alert-dismissible fade show mt-3';
+    warningDiv.innerHTML = `
+        <strong>⚠️ Warning Sent to ${studentName} (${studentId})</strong><br>
+        • Student has been notified about poor performance<br>
+        • Parents will be contacted automatically<br>
+        • Monitoring continues for improvement
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    // Add warning to the top of the page
+    const container = document.querySelector('.container');
+    container.insertBefore(warningDiv, container.children[1]);
+    
+    // Scroll to top to show the warning
+    window.scrollTo(0, 0);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Analytics Dashboard - Seaborn{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>📊 Analytics Dashboard (Seaborn Powered)</h2>
+    
+    <!-- Stats Cards -->
+    <div class="row mt-4">
+        <div class="col-md-3 mb-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body text-center">
+                    <h5>Total Students</h5>
+                    <h2>{{ total_students }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card bg-success text-white">
+                <div class="card-body text-center">
+                    <h5>Total Teachers</h5>
+                    <h2>{{ total_teachers }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card bg-info text-white">
+                <div class="card-body text-center">
+                    <h5>Total Courses</h5>
+                    <h2>{{ total_courses }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card bg-warning text-dark">
+                <div class="card-body text-center">
+                    <h5>Attendance Rate</h5>
+                    <h2>{{ attendance_percentage }}%</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Seaborn Charts -->
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5>📊 Attendance Distribution</h5>
+                </div>
+                <div class="card-body text-center">
+                    {% if attendance_chart %}
+                        <img src="{{ attendance_chart }}" class="img-fluid" alt="Attendance Chart">
+                    {% else %}
+                        <p>No attendance data available</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5>📈 Course Distribution</h5>
+                </div>
+                <div class="card-body text-center">
+                    {% if course_chart %}
+                        <img src="{{ course_chart }}" class="img-fluid" alt="Course Chart">
+                    {% else %}
+                        <p>No course data available</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5>🔥 Performance Heatmap</h5>
+                </div>
+                <div class="card-body text-center">
+                    {% if performance_chart %}
+                        <img src="{{ performance_chart }}" class="img-fluid" alt="Performance Chart">
+                    {% else %}
+                        <p>No performance data available</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5>⚠️ Risk Level Distribution</h5>
+                </div>
+                <div class="card-body text-center">
+                    {% if risk_chart %}
+                        <img src="{{ risk_chart }}" class="img-fluid" alt="Risk Chart">
+                    {% else %}
+                        <p>No risk data available</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="{% url 'predictive_analytics' %}" class="btn btn-primary">🎯 Predictive Analytics</a>
+            <a href="{% url 'admin_home' %}" class="btn btn-secondary">🏠 Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

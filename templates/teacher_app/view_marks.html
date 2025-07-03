@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}View Marks | College Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>View Marks</h2>
+    
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5>Filter Marks Records</h5>
+        </div>
+        <div class="card-body">
+            <form method="get" class="row">
+                <div class="col-md-5 mb-3">
+                    <label for="course" class="form-label">Course</label>
+                    <select id="course" name="course" class="form-control">
+                        <option value="">All Courses</option>
+                        {% for course in courses %}
+                            <option value="{{ course.id }}" {% if selected_course == course.id|stringformat:"i" %}selected{% endif %}>
+                                {{ course.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-5 mb-3">
+                    <label for="exam_type" class="form-label">Exam Type</label>
+                    <select id="exam_type" name="exam_type" class="form-control">
+                        <option value="">All Types</option>
+                        {% for exam_type in exam_types %}
+                            <option value="{{ exam_type.0 }}" {% if selected_exam_type == exam_type.0 %}selected{% endif %}>
+                                {{ exam_type.1 }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">Filter</button>
+                    <a href="{% url 'view_marks' %}" class="btn btn-secondary">Reset</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Marks Records -->
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h5>Marks Records</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Student</th>
+                            <th>Course</th>
+                            <th>Exam Type</th>
+                            <th>Marks</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in marks_records %}
+                        <tr>
+                            <td>{{ record.exam_date|date:"M d, Y" }}</td>
+                            <td>{{ record.student.first_name }} {{ record.student.last_name }}</td>
+                            <td>{{ record.course.name }}</td>
+                            <td>{{ record.marks_for }}</td>
+                            <td>{{ record.marks }}/{{ record.max_marks }}</td>
+                            <td>
+                                <a href="{% url 'edit_marks' record.id %}" class="btn btn-sm btn-primary">Edit</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No marks records found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

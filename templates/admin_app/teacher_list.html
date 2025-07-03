@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Teacher List | College Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>🔍 Search & Filter Teachers</h2>
+        <a href="{% url 'add_teacher' %}" class="btn btn-primary">+ Add Teacher</a>
+    </div>
+    
+    <!-- Search & Filter Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Search by Name/ID</label>
+                    <input type="text" name="search" class="form-control" placeholder="Enter name or teacher ID" value="{{ request.GET.search }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Filter by Course</label>
+                    <select name="course" class="form-select">
+                        <option value="">All Courses</option>
+                        {% for course in courses %}
+                        <option value="{{ course.id }}" {% if request.GET.course == course.id|stringformat:"s" %}selected{% endif %}>{{ course.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Filter by Timing</label>
+                    <select name="timing" class="form-select">
+                        <option value="">All Timings</option>
+                        <option value="Morning" {% if request.GET.timing == "Morning" %}selected{% endif %}>Morning</option>
+                        <option value="Afternoon" {% if request.GET.timing == "Afternoon" %}selected{% endif %}>Afternoon</option>
+                        <option value="Evening" {% if request.GET.timing == "Evening" %}selected{% endif %}>Evening</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">🔍 Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Teacher ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Courses</th>
+                    <th>Timing</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                <tr>
+                    <td>{{ teacher.id }}</td>
+                    <td>{{ teacher.teacher_id }}</td>
+                    <td>{{ teacher.first_name }} {{ teacher.last_name }}</td>
+                    <td>{{ teacher.email }}</td>
+                    <td>
+                        {% for course in teacher.courses.all %}
+                            {{ course.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ teacher.timing }}</td>
+                    <td>
+                        <a href="{% url 'edit_teacher' teacher.id %}" class="btn btn-sm btn-info">Edit</a>
+                        <a href="{% url 'delete_teacher' teacher.id %}" class="btn btn-sm btn-danger"
+                           onclick="return confirm('Are you sure you want to delete this teacher?')">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">No teachers found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

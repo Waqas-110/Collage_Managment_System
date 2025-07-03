@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Course | College Management System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Add New Course</h2>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="post" class="p-4 bg-white rounded shadow">
+        {% csrf_token %}
+        
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="id_name">Course Name</label>
+                {{ form.name }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="id_code">Course Code</label>
+                {{ form.code }}
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="id_description">Course Description</label>
+            {{ form.description }}
+        </div>
+        
+        <div class="mb-3">
+            <label>Timing (Select multiple if applicable)</label>
+            <div class="border p-3 rounded">
+                {{ form.timing }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Course</button>
+    </form>
+</div>
+{% endblock %}
